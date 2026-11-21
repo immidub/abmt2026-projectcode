@@ -44,6 +44,7 @@ import org.eqasim.switzerland.ch_cmdp.mode_choice.utilities.estimators.SwissCarP
 import org.eqasim.switzerland.ch_cmdp.mode_choice.utilities.estimators.SwissPtDetailedUtilityEstimator;
 import org.eqasim.switzerland.ch_cmdp.mode_choice.utilities.estimators.SwissWalkDetailedUtilityEstimator;
 import org.eqasim.switzerland.ch_cmdp.mode_choice.utilities.mode_availability.SwissDetailedModeAvailability;
+import org.eqasim.switzerland.ch_cmdp.mode_choice.utilities.mode_availability.SwissDrtModeAvailability;
 import org.matsim.api.core.v01.Scenario;
 import org.matsim.contribs.discrete_mode_choice.replanning.TripListConverter;
 import org.matsim.core.config.CommandLine;
@@ -65,6 +66,7 @@ public class SwissModeChoiceModule extends AbstractEqasimExtension {
 	static public final String PT_COST_MODEL_NAME = "SwissPtCostModel";//"SwissDetailedPtCostModel";
 
 	static public final String MODE_AVAILABILITY_NAME = "SwissDetailedModeAvailability";
+	static public final String DRT_MODE_AVAILABILITY_NAME = "SwissDrtModeAvailability";
 	static public final String CAR_ESTIMATOR_NAME = "SwissDetailedCarEstimator";
 	static public final String BIKE_ESTIMATOR_NAME = "SwissDetailedBikeEstimator";
 	static public final String PT_ESTIMATOR_NAME   = "SwissDetailedPtEstimator";
@@ -89,6 +91,7 @@ public class SwissModeChoiceModule extends AbstractEqasimExtension {
 		bindCostModel(CAR_COST_MODEL_NAME).to(SwissCarCostModel.class);
 		bindCostModel(CAR_WEISS_COST_MODEL_NAME).to(SwissWeissCarCostModel.class);
 		bindModeAvailability(MODE_AVAILABILITY_NAME).to(SwissDetailedModeAvailability.class);
+		bindModeAvailability(DRT_MODE_AVAILABILITY_NAME).to(SwissDrtModeAvailability.class);
 		bindUtilityEstimator(CAR_ESTIMATOR_NAME).to(SwissCarDetailedUtilityEstimator.class);
 		bindUtilityEstimator(BIKE_ESTIMATOR_NAME).to(SwissBikeDetailedUtilityEstimator.class);
 		bindUtilityEstimator(PT_ESTIMATOR_NAME).to(SwissPtDetailedUtilityEstimator.class);
