@@ -2,8 +2,10 @@ package org.eqasim.switzerland.ch_cmdp;
 
 //import org.eqasim.core.components.config.EqasimConfigGroup;
 import org.eqasim.core.simulation.EqasimConfigurator;
+import org.eqasim.switzerland.ch_cmdp.config.SwissDrtBehaviorConfigGroup;
 import org.eqasim.switzerland.ch_cmdp.config.SwissPTZonesConfigGroup;
 import org.eqasim.switzerland.ch_cmdp.mode_choice.SwissModeChoiceModule;
+import org.eqasim.switzerland.ch_cmdp.mode_choice.drt.SwissDrtInputsModule;
 import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.Scenario;
 import org.matsim.api.core.v01.TransportMode;
@@ -25,7 +27,9 @@ public class SwitzerlandConfigurator extends EqasimConfigurator {
 		this.cmd = cmd;
 
 		registerConfigGroup(new SwissPTZonesConfigGroup(), true);
+		registerConfigGroup(new SwissDrtBehaviorConfigGroup(), true);
 		registerModule(new SwissModeChoiceModule(cmd));
+		registerModule(new SwissDrtInputsModule(), SwissDrtBehaviorConfigGroup.GROUP_NAME);
 	}
 
 	@Override

@@ -3,6 +3,8 @@ package org.eqasim.switzerland.ch_cmdp;
 import ch.sbb.matsim.config.SwissRailRaptorConfigGroup;
 import ch.sbb.matsim.mobsim.qsim.SBBTransitModule;
 import ch.sbb.matsim.mobsim.qsim.pt.SBBTransitEngineQSimModule;
+import org.eqasim.switzerland.ch_cmdp.mode_choice.drt.SwissDrtUtilityEstimator;
+import org.eqasim.core.simulation.mode_choice.utilities.EqasimUtilityEstimator;
 import org.eqasim.switzerland.ch_cmdp.StrategyWeightDecay.StrategyWeightDecayModule;
 import org.eqasim.switzerland.ch_cmdp.tolls.TollsModule;
 import org.eqasim.switzerland.ch_cmdp.utils.link_stats.DetailedLinkStatisticsModule;
@@ -27,6 +29,7 @@ public class RunSimulation {
 		// this is especially important to avoid high waiting times when we cutout scenarios from a larger scenario.
 		CommandLine cmd = new CommandLine.Builder(args) //
 				.requireOptions("config-path") //
+				.allowOptions("validate-drt-setup") //
 				.allowPrefixes("mode-parameter", "cost-parameter", "preventwaitingtoentertraffic", "samplingRateForPT") //
 				.build();
 
@@ -35,6 +38,7 @@ public class RunSimulation {
 		configurator.updateConfig(config);
 		configurator.configure(config);
 		cmd.applyConfiguration(config);
+		SwissDrtUtilityEstimator.validateConfiguration(config);
 
 		if (cmd.hasOption("preventwaitingtoentertraffic")) {
 			if (cmd.getOption("preventwaitingtoentertraffic").get().equals("y")) {
@@ -68,6 +72,11 @@ public class RunSimulation {
 
 		});
 		controller.addOverridingQSimModule(new SampledTransitDwellQSimModule());
+        if (cmd.hasOption("validate-drt-setup")) {
+            controller.getInjector().getInstance(EqasimUtilityEstimator.class);
+            System.out.println("CMDP routed utility estimator constructed. No simulation iterations were started.");
+            return;
+        }
 		// save updated config before running the simulation
 		ConfigUtils.writeConfig(config, "run_config.xml");
 		controller.run();

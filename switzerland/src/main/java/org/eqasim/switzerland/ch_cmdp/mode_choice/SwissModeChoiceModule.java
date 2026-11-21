@@ -43,6 +43,7 @@ import org.eqasim.switzerland.ch_cmdp.mode_choice.utilities.estimators.SwissCarD
 import org.eqasim.switzerland.ch_cmdp.mode_choice.utilities.estimators.SwissCarPassengerDetailedUtilityEstimator;
 import org.eqasim.switzerland.ch_cmdp.mode_choice.utilities.estimators.SwissPtDetailedUtilityEstimator;
 import org.eqasim.switzerland.ch_cmdp.mode_choice.utilities.estimators.SwissWalkDetailedUtilityEstimator;
+import org.eqasim.switzerland.ch_cmdp.mode_choice.drt.SwissDrtUtilityEstimator;
 import org.eqasim.switzerland.ch_cmdp.mode_choice.utilities.mode_availability.SwissDetailedModeAvailability;
 import org.eqasim.switzerland.ch_cmdp.mode_choice.utilities.mode_availability.SwissDrtModeAvailability;
 import org.matsim.api.core.v01.Scenario;
@@ -97,6 +98,7 @@ public class SwissModeChoiceModule extends AbstractEqasimExtension {
 		bindUtilityEstimator(PT_ESTIMATOR_NAME).to(SwissPtDetailedUtilityEstimator.class);
 		bindUtilityEstimator(WALK_ESTIMATOR_NAME).to(SwissWalkDetailedUtilityEstimator.class);
 		bindUtilityEstimator(CP_ESTIMATOR_NAME).to(SwissCarPassengerDetailedUtilityEstimator.class);
+		bindUtilityEstimator(SwissDrtUtilityEstimator.NAME).to(SwissDrtUtilityEstimator.class);
 
 		bindCostModel(PT_COST_MODEL_NAME).to(SwissPtCostModel.class);
 
