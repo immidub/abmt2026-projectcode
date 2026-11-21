@@ -1,8 +1,7 @@
 package org.eqasim.switzerland.ch_cmdp;
 
+import ch.sbb.matsim.config.SBBTransitConfigGroup;
 import ch.sbb.matsim.config.SwissRailRaptorConfigGroup;
-import ch.sbb.matsim.mobsim.qsim.SBBTransitModule;
-import ch.sbb.matsim.mobsim.qsim.pt.SBBTransitEngineQSimModule;
 import org.eqasim.switzerland.ch_cmdp.mode_choice.drt.SwissDrtUtilityEstimator;
 import org.eqasim.core.simulation.mode_choice.utilities.EqasimUtilityEstimator;
 import org.eqasim.switzerland.ch_cmdp.StrategyWeightDecay.StrategyWeightDecayModule;
@@ -34,7 +33,8 @@ public class RunSimulation {
 				.build();
 
 		SwitzerlandConfigurator configurator = new SwitzerlandConfigurator(cmd);
-		Config config = ConfigUtils.loadConfig(cmd.getOptionStrict("config-path"), new SampledTransitDwellConfigGroup());
+		Config config = ConfigUtils.loadConfig(cmd.getOptionStrict("config-path"),
+				new SBBTransitConfigGroup(), new SampledTransitDwellConfigGroup());
 		configurator.updateConfig(config);
 		configurator.configure(config);
 		cmd.applyConfiguration(config);
@@ -64,13 +64,6 @@ public class RunSimulation {
 		controller.addOverridingModule(new TollsModule());
 		controller.addOverridingModule(new DetailedLinkStatisticsModule());
 
-		// To use the deterministic pt simulation (Part 1 of 2):
-		controller.addOverridingModule(new SBBTransitModule());
-		// To use the deterministic pt simulation (Part 2 of 2):
-		controller.configureQSimComponents(components -> {
-			new SBBTransitEngineQSimModule().configure(components);
-
-		});
 		controller.addOverridingQSimModule(new SampledTransitDwellQSimModule());
         if (cmd.hasOption("validate-drt-setup")) {
             controller.getInjector().getInstance(EqasimUtilityEstimator.class);

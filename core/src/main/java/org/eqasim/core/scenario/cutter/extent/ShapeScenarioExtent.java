@@ -18,28 +18,35 @@ import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.geopkg.FeatureEntry;
 import org.geotools.geopkg.GeoPackage;
+import org.locationtech.jts.algorithm.locate.IndexedPointInAreaLocator;
 import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Envelope;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.LineString;
 import org.locationtech.jts.geom.MultiPolygon;
-import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.Location;
 import org.locationtech.jts.geom.Polygon;
 import org.matsim.api.core.v01.Coord;
 
 public class ShapeScenarioExtent implements ScenarioExtent {
 	private final GeometryFactory factory = new GeometryFactory();
 	private final Polygon polygon;
+	private final Envelope bounds;
+	private final IndexedPointInAreaLocator pointLocator;
 
 	public ShapeScenarioExtent(Polygon polygon) {
 		this.polygon = polygon;
+		this.bounds = polygon.getEnvelopeInternal();
+		this.pointLocator = new IndexedPointInAreaLocator(polygon);
 	}
 
 	@Override
 	public boolean isInside(Coord coord) {
-		Coordinate coordinate = new Coordinate(coord.getX(), coord.getY());
-		Point point = factory.createPoint(coordinate);
-		return polygon.contains(point);
+		double x = coord.getX();
+		double y = coord.getY();
+		// Strictly interior matches Polygon.contains(Point), including for hole boundaries.
+		return bounds.covers(x, y) && pointLocator.locate(new Coordinate(x, y)) == Location.INTERIOR;
 	}
 
 	@Override
