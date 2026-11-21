@@ -18,6 +18,7 @@ public final class SwissDrtInputsModule extends AbstractEqasimExtension {
 
     @Override
     protected void installEqasimExtension() {
+        bind(ZurichDrtInputs.class);
         bind(ServiceTimeProvider.class).to(ZurichDrtInputs.class);
         bind(TripAttributesProvider.class).to(ZurichDrtInputs.class);
         bind(TravellerAttributesProvider.class).to(ZurichDrtInputs.class);

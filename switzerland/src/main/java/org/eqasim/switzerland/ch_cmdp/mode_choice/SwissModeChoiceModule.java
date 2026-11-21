@@ -91,6 +91,7 @@ public class SwissModeChoiceModule extends AbstractEqasimExtension {
 
 		bindCostModel(CAR_COST_MODEL_NAME).to(SwissCarCostModel.class);
 		bindCostModel(CAR_WEISS_COST_MODEL_NAME).to(SwissWeissCarCostModel.class);
+		bind(SwissDetailedModeAvailability.class);
 		bindModeAvailability(MODE_AVAILABILITY_NAME).to(SwissDetailedModeAvailability.class);
 		bindModeAvailability(DRT_MODE_AVAILABILITY_NAME).to(SwissDrtModeAvailability.class);
 		bindUtilityEstimator(CAR_ESTIMATOR_NAME).to(SwissCarDetailedUtilityEstimator.class);

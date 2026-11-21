@@ -6,11 +6,26 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.inject.Guice;
+import com.google.inject.Key;
+import com.google.inject.TypeLiteral;
 import com.google.inject.AbstractModule;
 import org.eqasim.switzerland.ch_cmdp.mode_choice.drt.SwissDrtInputs.*;
 import org.matsim.core.config.Config;
 
 import org.eqasim.core.components.config.EqasimConfigGroup;
+import org.eqasim.core.simulation.mode_choice.utilities.EqasimUtilityEstimator;
+import org.matsim.contribs.discrete_mode_choice.model.trip_based.TripConstraintFactory;
+import org.matsim.core.router.TripRouter;
+import org.matsim.core.utils.timing.TimeInterpretation;
+import org.eqasim.core.simulation.modes.drt.mode_choice.constraints.DrtWalkConstraint;
+import org.matsim.contrib.drt.optimizer.constraints.DrtRouteConstraints;
+import org.matsim.contrib.drt.routing.DrtRoute;
+import org.matsim.contribs.discrete_mode_choice.model.trip_based.candidates.DefaultRoutedTripCandidate;
+import org.matsim.contribs.discrete_mode_choice.modules.config.DiscreteModeChoiceConfigGroup;
+import org.matsim.core.scenario.ScenarioUtils;
+import org.matsim.households.Household;
+import org.matsim.households.Income;
+import java.util.Set;
 import org.eqasim.core.simulation.mode_choice.utilities.predictors.WalkPredictor;
 import org.eqasim.core.simulation.mode_choice.utilities.variables.PersonVariables;
 import org.eqasim.switzerland.ch_cmdp.calibration.CmdpVariablesWriter;
@@ -105,6 +120,9 @@ public class TestSwissDrtBehavior {
                   <module name="eqasim:swissDrtBehavior">
                     <param name="specification" value="kagho"/>
                     <param name="parametersPath" value="kagho.yml"/>
+                    <param name="pickupWaitMinutes" value="10"/>
+                    <param name="poolingDelayMinutes" value="5"/>
+                    <param name="fareChfPerRoutedKm" value="0.60"/>
                   </module>
                 </config>
                 """);
@@ -115,6 +133,8 @@ public class TestSwissDrtBehavior {
         }).build();
         new SwitzerlandConfigurator(cmd).updateConfig(config);
 
+        DiscreteModeChoiceConfigGroup.getOrCreate(config)
+                .setTripConstraints(Set.of(SwissDrtInputsModule.INPUT_CONSTRAINT, "DrtWalkConstraint"));
         var drt = new DrtConfigGroup();
         drt.setMode("drt");
         drt.setVehiclesFile("fleet.xml");
@@ -282,6 +302,122 @@ public class TestSwissDrtBehavior {
         });
         assertEquals(-6.885945249859219,
                 injector.getInstance(SwissDrtUtilityEstimator.class).estimateUtility(null, null, List.of()), 1e-12);
+    }
+
+    @Test
+    public void productionInputsUseRoutedTimesAndDistanceAndHouseholdMembership() throws Exception {
+        var config = productionConfig("kagho", KAGHO);
+        var scenario = ScenarioUtils.createScenario(config);
+        var person = PopulationUtils.getFactory().createPerson(Id.createPersonId("passenger"));
+        person.getAttributes().putAttribute("age", 60);
+        person.getAttributes().putAttribute("incomePerCapita", 9999.0);
+        person.getAttributes().putAttribute("subscriptions", "VA+HT");
+        var households = scenario.getHouseholds();
+        var household = households.getFactory().createHousehold(Id.create("hh", Household.class));
+        household.addMemberId(person.getId());
+        var income = households.getFactory().createIncome(12260, Income.IncomePeriod.month);
+        income.setCurrency("CHF");
+        household.setIncome(income);
+        households.getHouseholds().put(household.getId(), household);
+
+        var injector = org.matsim.core.controler.Injector.createInjector(config, new SwissDrtInputsModule(),
+                new org.matsim.core.controler.AbstractModule() {
+                    @Override
+                    public void install() {
+                        bind(org.matsim.api.core.v01.Scenario.class).toInstance(scenario);
+                        bind(SwissDrtUtilityEstimator.class);
+                    }
+                });
+        var inputs = injector.getInstance(ZurichDrtInputs.class);
+        var trip = directTrip("work", "home");
+        var leg = PopulationUtils.createLeg("drt");
+        var route = new DrtRoute(Id.createLinkId("pickup"), Id.createLinkId("dropoff"));
+        route.setDistance(40000);
+        route.setDirectRideTime(1200);
+        route.setConstraints(new DrtRouteConstraints(0, 1800, 7200, 3600, 1800, 300, true));
+        leg.setRoute(route);
+        leg.setTravelTime(3600);
+        var walk = PopulationUtils.createLeg("walk");
+        walk.setTravelTime(240);
+        var itinerary = List.of(walk, leg);
+
+        assertEquals(new ServiceTimes(10, 25, 10, 4), inputs.predict(person, trip, itinerary));
+        assertEquals(new TripAttributes(39, 40, "work", "home", Purpose.commuting), inputs.describe(trip, itinerary));
+        assertEquals(new TravellerAttributes(60, 12260.0, true), inputs.describe(person));
+        assertEquals(24, inputs.fareChf(person, trip, itinerary), 1e-12);
+        var estimator = injector.getInstance(SwissDrtUtilityEstimator.class);
+        var router = new TripRouter.Builder(config).setRoutingModule("drt", request -> itinerary).build();
+        var routedEstimator = new EqasimUtilityEstimator(router, scenario.getActivityFacilities(),
+                Map.of("drt", estimator), TimeInterpretation.create(config), List.of(),
+                (id, index, mode) -> 0, (mode, p, t, elements) -> 0);
+        trip.setDepartureTime(36000);
+        double utility = routedEstimator.estimateTrip(person, "drt", trip, List.of()).getUtility();
+        assertEquals(-8.0988, utility, 1e-12);
+
+        var behavior = (SwissDrtBehaviorConfigGroup) config.getModules().get(SwissDrtBehaviorConfigGroup.GROUP_NAME);
+        behavior.setFareChfPerRoutedKm(0.70);
+        assertTrue(estimator.estimateUtility(person, trip, itinerary) < utility);
+        behavior.setFareChfPerRoutedKm(0.60);
+        behavior.setPickupWaitMinutes(11);
+        assertTrue(estimator.estimateUtility(person, trip, itinerary) < utility);
+
+        var missingIncome = PopulationUtils.getFactory().createPerson(Id.createPersonId("missing-income"));
+        missingIncome.getAttributes().putAttribute("incomePerCapita", 9999.0);
+        missingIncome.getAttributes().putAttribute("age", 60);
+        var factories = injector.getInstance(Key.get(new TypeLiteral<Map<String, TripConstraintFactory>>() {}));
+        var constraint = factories.get(SwissDrtInputsModule.INPUT_CONSTRAINT)
+                .createConstraint(missingIncome, List.of(trip), List.of("drt", "walk"));
+        assertFalse(constraint.validateBeforeEstimation(trip, "drt", List.of()));
+        assertTrue(constraint.validateBeforeEstimation(trip, "walk", List.of()));
+
+        var fallback = List.of(walk);
+        var candidate = new DefaultRoutedTripCandidate(estimator.estimateUtility(person, trip, fallback),
+                "drt", fallback, 240);
+        assertFalse(new DrtWalkConstraint(Set.of("drt")).validateAfterEstimation(trip, candidate, List.of()));
+
+        var erathConfig = productionConfig("erath", ERATH);
+        var erathInputs = new ZurichDrtInputs(erathConfig, scenario);
+        var erath = new SwissDrtUtilityEstimator(SwissDrtUtilityEstimator.loadSelection(erathConfig),
+                erathInputs, erathInputs, erathInputs, erathInputs);
+        assertEquals(new ServiceTimes(10, 25, 10, 4), erathInputs.predict(person, trip, itinerary));
+        assertEquals(24, erathInputs.fareChf(person, trip, itinerary), 1e-12);
+        assertTrue(Double.isFinite(erath.estimateUtility(person, trip, itinerary)));
+        assertNotEquals(utility, erath.estimateUtility(person, trip, itinerary), 1e-9);
+    }
+
+    @Test
+    public void productionErathRequiresPurposeAndCardOnlyForTable56() throws Exception {
+        var config = productionConfig("erath", ERATH.replace("equation47", "table56"));
+        var inputs = new ZurichDrtInputs(config, ScenarioUtils.createScenario(config));
+        var person = PopulationUtils.getFactory().createPerson(Id.createPersonId("passenger"));
+        var trip = directTrip("home", "education");
+        assertFalse(inputs.hasRequiredAttributes(person, trip));
+        person.getAttributes().putAttribute("subscriptions", "none");
+        assertTrue(inputs.hasRequiredAttributes(person, trip));
+        assertEquals(false, inputs.describe(person).halfFareCard());
+        assertFalse(inputs.hasRequiredAttributes(person, directTrip("home", "home_secondary")));
+        assertFalse(inputs.hasRequiredAttributes(person, directTrip("outside", "shop")));
+
+        var defaultConfig = productionConfig("erath", ERATH);
+        var equation47 = new ZurichDrtInputs(defaultConfig, ScenarioUtils.createScenario(defaultConfig));
+        person.getAttributes().removeAttribute("subscriptions");
+        assertTrue(equation47.hasRequiredAttributes(person, trip));
+    }
+
+    private Config productionConfig(String specification, String yaml) throws Exception {
+        var behavior = new SwissDrtBehaviorConfigGroup();
+        behavior.setSpecification(specification);
+        behavior.setParametersPath(write(specification + ".yml", yaml).toString());
+        behavior.setPickupWaitMinutes(10);
+        behavior.setPoolingDelayMinutes(5);
+        behavior.setFareChfPerRoutedKm(0.60);
+        return ConfigUtils.createConfig(behavior);
+    }
+
+    private static DiscreteModeChoiceTrip directTrip(String origin, String destination) {
+        return new DiscreteModeChoiceTrip(PopulationUtils.createActivityFromCoord(origin, new Coord(0, 0)),
+                PopulationUtils.createActivityFromCoord(destination, new Coord(39000, 0)), "walk",
+                List.of(), 0, 0, 0, new AttributesImpl());
     }
 
     private static double conventionalWalkUtility() {
