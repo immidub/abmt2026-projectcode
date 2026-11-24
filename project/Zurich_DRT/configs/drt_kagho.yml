@@ -1,0 +1,21 @@
+# Kagho et al. (2025), main text Eq. 1 and Appendix A, Eqs. 2–3 and Table A.1.
+# Printed income reference 12.260 CHF interpreted as CHF 12,260/month.
+# Published door-to-door application has no access/egress utility.
+schemaVersion: 1
+specification: kagho
+coefficients:
+  ascUtility: -0.061
+  rideUtilityPerMinute: -0.015
+  waitUtilityPerMinute: -0.093
+  workUtility: -1.938
+  age60PlusUtility: -2.6588
+  costUtilityPerChf: -0.089
+  rideDistanceExponent: 0.115
+  costDistanceExponent: -0.221
+  costIncomeExponent: -0.817
+  referenceDistanceKm: 39
+  referenceHouseholdIncomeChfPerMonth: 12260
+transfer:
+  utilityMultiplierToZurich: 1.0
+  ascAdjustmentZurichUtility: 0.0
+  justification: Identity transfer for equation verification and sensitivity testing only.

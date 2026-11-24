@@ -1,0 +1,209 @@
+car.alpha_u: 3.1842615498349502
+car.betaTravelTime_u_min: -1.7913
+car.travelTimeExponent: 0.6535
+car.betaAge_u: 0.1735
+car.betaSex_u: -0.6493
+car.betaLowIncome_u: 0.1241
+car.betaHighIncome_u: -0.3945
+car.betaRegion1_u: 0.2365
+car.betaRegion2_u: -0.1445
+car.betaOriginHome_u: 0.0
+car.betaDestinationWork_u: 0.353
+car.betaUrbanDestination_u: 0.0
+car.betaUrbancoreDestination_u: -0.1987
+car.betaDestinationHome_u: 0.0
+car.betaDestinationEducation_u: -0.0717
+car.betaDestinationShopping_u: 1.0131
+car.betaDestinationLeisure_u: 0.7389
+car.betaDestinationOther_u: 1.5306
+car.betaRetired_u: -0.7373
+car.betaJunior_u: 0.0
+car.betaCarOwnershipRatio_u: -2.2013
+car.betaShortDistance_u: -0.0113
+car.betaLongDistance_u: 0.1184
+car.betaDensities_u: -0.0948
+car.betaDestinationZurich_u: -0.7267
+car.betaDestinationGeneva_u: -0.0183
+car.betaDestinationBasel_u: -0.744
+car.betaDestinationLausanne_u: 0.0
+car.betaDestinationLuzern_u: -0.1341
+car.betaDestinationBern_u: -0.5464
+car.additionalAccessEgressWalkTime_min: 0.0
+car.constantParkingSearchPenalty_min: 0.0
+pt.alpha_u: 0.0
+pt.betaLineSwitch_u: -0.438
+pt.betaInVehicleTime_u_min: -0.231
+pt.betaWaitingTime_u_min: -0.02
+pt.betaAccessEgressTime_u_min: -0.8671
+pt.betaDistance_u_km: -0.5
+pt.inVehicleTimeExponent: 1.0
+pt.waitingTimeExponent: 1.0
+pt.accessEgressTimeExponent: 0.449
+pt.lineSwitchExponent: 1.0394
+pt.distanceExponent: 0.9055
+pt.betaAge_u: 0.0
+pt.betaSex_u: 0.0
+pt.betaLowIncome_u: 0.1467
+pt.betaHighIncome_u: -0.2737
+pt.betaRegion1_u: 0.0
+pt.betaRegion2_u: 0.0
+pt.betaOriginHome_u: 0.0
+pt.betaDestinationWork_u: 0.0
+pt.betaUrbanDestination_u: 0.0
+pt.betaUrbancoreDestination_u: 0.0
+pt.betaDestinationHome_u: 0.0
+pt.betaDestinationEducation_u: 0.0
+pt.betaDestinationShopping_u: 0.0
+pt.betaDestinationLeisure_u: 0.0
+pt.betaDestinationOther_u: 0.0
+pt.betaShortDistance_u: 0.0
+pt.betaRetired_u: 0.0
+pt.betaJunior_u: -0.3266
+pt.betaLongDistance_u: 0.0
+pt.betaGoodService_u: 0.4275
+pt.betaMediumService_u: 0.2224
+pt.betaDestinationGoodService_u: -0.0032
+pt.betaDestinationMediumService_u: -0.0029
+pt.betaDensities_u: 0.0549
+bike.alpha_u: 3.311956157445273
+bike.betaTravelTime_u_min: -3.327
+bike.travelTimeExponent: 0.4965
+bike.betaAge_u: 0.2192
+bike.betaSex_u: -0.4513
+bike.betaLowIncome_u: -0.1005
+bike.betaHighIncome_u: -0.3262
+bike.betaRegion1_u: -0.7876
+bike.betaRegion2_u: -0.2267
+bike.betaOriginHome_u: 0.3369
+bike.betaShortDistance_u: 0.253
+bike.betaDestinationWork_u: 0.0
+bike.betaUrbanDestination_u: -0.204
+bike.betaUrbancoreDestination_u: -0.1814
+bike.betaDestinationHome_u: 0.0
+bike.betaDestinationEducation_u: -0.1343
+bike.betaDestinationShopping_u: -0.1276
+bike.betaDestinationLeisure_u: 0.3352
+bike.betaDestinationOther_u: -0.1282
+bike.betaRetired_u: -1.0841
+bike.betaJunior_u: 0.0
+bike.betaLongDistance_u: 0.0
+bike.betaDensities_u: -0.0483
+walk.alpha_u: 10.551345193891601
+walk.betaTravelTime_u_min: -9.5067
+walk.travelTimeExponent: 0.2339
+walk.betaAge_u: 0.1051
+walk.betaSex_u: -0.2
+walk.betaLowIncome_u: 0.0
+walk.betaHighIncome_u: 0.0
+walk.betaRegion1_u: 0.291
+walk.betaRegion2_u: -0.1641
+walk.betaOriginHome_u: 0.3465
+walk.betaShortDistance_u: 0.5206
+walk.betaDestinationWork_u: 0.0
+walk.betaUrbanDestination_u: -0.1329
+walk.betaUrbancoreDestination_u: -0.2597
+walk.betaDestinationHome_u: 0.0
+walk.betaDestinationEducation_u: 0.1065
+walk.betaDestinationShopping_u: 0.022
+walk.betaDestinationLeisure_u: 0.6141
+walk.betaDestinationOther_u: 0.2371
+walk.betaRetired_u: -0.3461
+walk.betaJunior_u: -0.2661
+walk.betaLongDistance_u: 0.0
+walk.betaDensities_u: 0.0
+cp.alpha_u: -0.2950861239485659
+cp.betaTravelTime_u_min: -1.8789
+cp.travelTimeExponent: 0.5437
+cp.betaAge_u: 0.1046
+cp.betaSex_u: 0.2587
+cp.betaLowIncome_u: 0.0414
+cp.betaHighIncome_u: -0.392
+cp.betaRegion1_u: 0.2254
+cp.betaRegion2_u: -0.2722
+cp.betaOriginHome_u: 0.0
+cp.betaDestinationWork_u: -0.2169
+cp.betaUrbanDestination_u: 0.1386
+cp.betaUrbancoreDestination_u: -0.2197
+cp.betaDestinationHome_u: 0.0
+cp.betaDestinationEducation_u: -0.9429
+cp.betaDestinationShopping_u: 0.5942
+cp.betaDestinationLeisure_u: 0.8991
+cp.betaDestinationOther_u: 0.7839
+cp.betaDrivingLicense_u: -0.3416
+cp.betaShortDistance_u: -0.0288
+cp.betaRetired_u: 0.0139
+cp.betaJunior_u: 0.3102
+cp.betaLongDistance_u: 0.134
+cp.betaCarOwnershipRatio_u: -0.4083
+cp.betaHasCar_u: 0.6566
+cp.betaVeryLongDistance_u: -0.6795
+cp.betaDistance_u_km: -0.0468
+cp.betaDensities_u: -0.0829
+parking.urbancoreParkingSearchDuration_min: 4.0
+parking.urbanParkingSearchDuration_min: 3.0
+parking.suburbanParkingSearchDuration_min: 2.0
+swissCanton.car: {solothurn: -0.3366421490497792, zurich: -0.02948057011305366, fribourg: -0.5599331799685148,
+  luzern: -0.14414029866390093, geneva: 0.5369586751893045, appenzell_innerrhoden: 0.4166578722458867,
+  jura: 0.3023456955691289, fr: -0.48347914156739147, vaud: -0.40727311985337605,
+  appenzell_ausserrhoden: -0.9754769089469447, zug: -0.18748034798162694, bern: -0.37117123932745405,
+  basel_stadt: -0.40724064677838995, neuchatel: 0.20066968711146413, glarus: -0.5470687234049366,
+  grisons: -0.211777514879863, thurgau: 0.010185025997014424, aargau: -0.5662644732978359,
+  basel_landschaft: -0.6310918846003901, schwyz: -0.8042531356067621, obwalden: -0.7208969654873999,
+  st_gallen: -0.2717123169824484, uri: -0.7580162883744317, valais: -0.017325735849754546,
+  schaffhausen: -0.7508575866811031, ticino: 0.4961200668324681, nidwalden: -0.6283983645101562}
+swissCanton.pt: {solothurn: 0.0, zurich: 0.0, fribourg: 0.0, luzern: 0.0, geneva: 0.0,
+  appenzell_innerrhoden: 0.0, jura: 0.0, fr: 0.0, vaud: 0.0, appenzell_ausserrhoden: 0.0,
+  zug: 0.0, bern: 0.0, basel_stadt: 0.0, neuchatel: 0.0, glarus: 0.0, grisons: 0.0,
+  thurgau: 0.0, aargau: 0.0, basel_landschaft: 0.0, schwyz: 0.0, obwalden: 0.0, st_gallen: 0.0,
+  uri: 0.0, valais: 0.0, schaffhausen: 0.0, ticino: 0.0, nidwalden: 0.0}
+swissCanton.bike: {solothurn: -0.31092940490312565, zurich: -0.07664510083261221,
+  fribourg: -0.33497711976146183, luzern: -0.14304189260705236, geneva: 0.07527938853859138,
+  appenzell_innerrhoden: 0.10878150507354575, jura: -0.4186516610014259, fr: -1.7675071745273259,
+  vaud: 0.06397395849963677, appenzell_ausserrhoden: -0.9025439723916137, zug: 0.14373722158494756,
+  bern: -0.27864240245913613, basel_stadt: 0.01760074276649192, neuchatel: 0.21902209987959398,
+  glarus: -0.23371828058616648, grisons: 0.7156846763112727, thurgau: -0.1038379900660177,
+  aargau: -0.21159404457751785, basel_landschaft: -0.5533088402776417, schwyz: -0.0775921372295053,
+  obwalden: -0.32738904976341143, st_gallen: -0.1566752422989247, uri: -0.15334136605807946,
+  valais: 0.4914560190991969, schaffhausen: -0.5831315870841164, ticino: 0.8825623590086704,
+  nidwalden: 0.061455861386892095}
+swissCanton.walk: {solothurn: -0.22556618021851355, zurich: -0.14438126421836697,
+  fribourg: -0.5683482486398936, luzern: -0.15955868837072562, geneva: 0.5346560676951946,
+  appenzell_innerrhoden: -0.24930234120480635, jura: -0.21991536241602325, fr: -0.1158124614869219,
+  vaud: -0.21236529287417327, appenzell_ausserrhoden: -1.2102626964833447, zug: 0.37932159196989224,
+  bern: -0.3483932919676827, basel_stadt: -0.43057065394446475, neuchatel: -0.19287251121425306,
+  glarus: -0.12990495321419854, grisons: 0.2631634815033167, thurgau: 0.03936502209191446,
+  aargau: -0.22380900534442802, basel_landschaft: -0.7046807860031463, schwyz: -0.6767380473379747,
+  obwalden: -0.1180587746439346, st_gallen: -0.12659667354914395, uri: 0.04131496780680471,
+  valais: 0.29078915011338574, schaffhausen: -0.5328138865309319, ticino: 0.5411701232105747,
+  nidwalden: -0.4309926324295116}
+swissCanton.cp: {solothurn: -0.21044148311056202, zurich: -0.10989542541922226, fribourg: -0.252621831659106,
+  luzern: -0.23364423333626855, geneva: -0.05780886075067449, appenzell_innerrhoden: 0.5041303935775625,
+  jura: 0.283771035936505, fr: -0.2446574795352778, vaud: -0.27726632381567307, appenzell_ausserrhoden: -0.3183697519497844,
+  zug: -0.27258651928479566, bern: -0.3130430177294977, basel_stadt: -0.7667376943653819,
+  neuchatel: 0.07975037279611623, glarus: -0.24846540653968333, grisons: -0.5005573138477247,
+  thurgau: 0.14169930772279737, aargau: -0.3839911382810132, basel_landschaft: -0.7090160847673349,
+  schwyz: -0.8360332441797614, obwalden: -0.371904226224386, st_gallen: -0.017054612231273795,
+  uri: 0.14140451324211514, valais: 0.16521355594022707, schaffhausen: -0.7393714468232153,
+  ticino: 0.6364923362770878, nidwalden: -0.1767028791088513}
+lambdaCostIncome: -0.0945
+referenceIncome: 6000.0
+betaDestinationEmployeeDensity_u: 13.0512
+betaDestinationPopulationDensity_u: 4.3516
+betaDestinationCompaniesDensity_u: 0.1
+timeScale_min: 10.0
+distanceScale_km: 10.0
+ageScale_year: 10.0
+populationDensityScale: 1000.0
+populationDensityExponent: 0.7
+employeesDensityScale: 200.0
+employeesDensityExponent: 0.5
+companiesDensityScale: 50.0
+companiesDensityExponent: 0.5
+lowIncomeThreshold: 3000.0
+highIncomeThreshold: 8000.0
+shortDistance_km: 1.0
+longDistance_km: 13.0
+veryLongDistance_km: 30.0
+lambdaCostEuclideanDistance: -0.1038
+referenceEuclideanDistance_km: 15.0
+betaCost_u_MU: -0.0951

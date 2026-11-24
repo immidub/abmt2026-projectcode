@@ -1,0 +1,33 @@
+# Erath et al. (2025), section 7.2.2, Table 56 and Eqs. 47, 49, 50.
+# equation47 omits the half-fare term. Select table56 to include it for direct aRP.
+schemaVersion: 1
+specification: erath
+halfFareTreatment: equation47
+coefficients:
+  ascUtility: -1.365
+  responseUtilityPerMinute: -0.024
+  accessEgressUtilityPerMinute: -0.065
+  costUtilityPerChf: -0.096
+  costDistanceExponent: -0.513
+  halfFareUtility: 0.446
+purposes:
+  commuting:
+    rideUtilityPerMinute: -0.043
+    rideDistanceExponent: -0.181
+    referenceDistanceKm: 28.4
+  leisure:
+    rideUtilityPerMinute: -0.041
+    rideDistanceExponent: -0.119
+    referenceDistanceKm: 30.3
+  shopping:
+    rideUtilityPerMinute: -0.041
+    rideDistanceExponent: -0.119
+    referenceDistanceKm: 30.0
+  other:
+    rideUtilityPerMinute: -0.041
+    rideDistanceExponent: -0.119
+    referenceDistanceKm: 30.0
+transfer:
+  utilityMultiplierToZurich: 1.0
+  ascAdjustmentZurichUtility: 0.0
+  justification: Identity transfer for equation verification and sensitivity testing only.

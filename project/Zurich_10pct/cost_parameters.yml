@@ -1,0 +1,6 @@
+urbanParkingCost_CHF_h: 1.0
+urbancoreParkingCost_CHF_h: 1.3
+suburbanParkingCost_CHF_h: 0.5
+parkingPriceReductionForWork: 0.0
+carCost_CHF_km: 0.26
+ptRegionalRadius_km: 10.0
